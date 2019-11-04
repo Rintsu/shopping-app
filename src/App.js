@@ -8,7 +8,6 @@ import NavBar from './components/NavBar';
 import ShoppingList from './components/ShoppingList';
 import LoginForm from './components/LoginForm';
 
-
 class App extends React.Component {
   constructor(props){
     super(props);
