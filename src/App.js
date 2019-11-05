@@ -104,10 +104,8 @@ class App extends React.Component {
           <Route path="/list" render={
             () => this.props.isLogged ? 
                     (<ShoppingList 
-                      list={this.state.list}
                       removeFromList={this.removeFromList}
-                      editItem={this.editItem}
-                      getList={this.getList}/>) :
+                      editItem={this.editItem}/>) :
                     (<Redirect to="/"/>)
           }/>
           <Route path="/form" render={
@@ -125,8 +123,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLogged:state.isLogged,
-    token:state.token
+    isLogged:state.login.isLogged,
+    token:state.login.token
   }
 }
 
