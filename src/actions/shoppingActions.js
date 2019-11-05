@@ -12,7 +12,37 @@ export const EDIT_ITEM_FAILED = "EDIT_ITEM_FAILED";
 export const REMOVE_STATE = "REMOVE_STATE";
 
 export const getList = (token, search) => {
-
+    return dispatch => {
+        let request = {
+            method:"GET",
+            mode:"cors",
+            headers:{"Content-type":"application/json",
+                    "token":token}
+        }
+        let url = "/api/shopping";
+        if(search){
+            url = url + "?type=" + search;
+        }
+        dispatch(fetchLoading());
+        fetch(url, request).then((response) => {
+            dispatch(loadingDone());
+            if(response.ok){
+                response.json().then((data) => {
+                    dispatch(getListSuccess(data));
+            }).catch((error) => {
+                dispatch(getListFailed("Failed to handle JSON: " + error));
+            });
+            } else {
+                if(response.status === 403){
+                    dispatch(removeState());
+                    dispatch(logoutSuccess());
+                } 
+                dispatch(getListFailed("Server responded with status: " + response.statusText));
+            }
+        }).catch((error) => {
+            dispatch(getListFailed("Server responded with an error: " + error));
+        });
+    }
 }
 
 export const addToList = (token, item) => {
