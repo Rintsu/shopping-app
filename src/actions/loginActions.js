@@ -120,7 +120,7 @@ const loginFailed = (error) => {
     }
 }
 
-const logoutSuccess = () => {
+export const logoutSuccess = () => {
     return {
         type:LOGOUT_SUCCESS
     }
