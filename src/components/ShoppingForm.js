@@ -1,6 +1,8 @@
 import React from 'react';
 import {Form, Button} from 'semantic-ui-react';
 import {withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addToList } from '../actions/shoppingActions';
 
 class ShoppingForm extends React.Component {
     constructor(props){
@@ -28,7 +30,7 @@ class ShoppingForm extends React.Component {
             count:this.state.count,
             total:(this.state.price * this.state.count).toFixed(2)
         }
-        this.props.addToList(item);
+        this.props.dispatch(addToList(this.props.token, item));
         this.setState({
             type:"",
             price:0,
@@ -77,4 +79,9 @@ class ShoppingForm extends React.Component {
     }
 }
 
-export default withRouter(ShoppingForm);
+const mapStateToProps = (state) => {
+    return {
+        token:state.login.token
+    }
+}
+export default withRouter(connect(mapStateToProps)(ShoppingForm));

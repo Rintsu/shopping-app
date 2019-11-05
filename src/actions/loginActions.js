@@ -1,5 +1,5 @@
 //ACTION CONSTANTS
-import { removeState } from './shoppingActions';
+import { removeState, getList } from './shoppingActions';
 
 export const FETCH_LOADING = "FETCH_LOADING"
 export const LOADING_DONE = "LOADING_DONE"
@@ -49,6 +49,7 @@ export const onLogin = (user) => {
             if(response.ok){
               response.json().then(data => {
                 dispatch(loginSuccess(data.token));
+                dispatch(getList(data.token));
               }).catch((error) => {
                   dispatch(loginFailed("JSON parse failed with error: " + error));
               })

@@ -10,10 +10,22 @@ import {
     REMOVE_STATE
 } from '../actions/shoppingActions';
 
-const initialState = {
-    list:[],
-    error:""
+const getInitialState = () => {
+    if(sessionStorage.getItem("shoppingstate")){
+        return JSON.parse(sessionStorage.getItem("shoppingstate"));
+    } else {
+        return {
+            list:[],
+            error:""
+        }
+    }
 }
+
+const saveToStorage = (state) => {
+    sessionStorage.setItem("shoppingstate", JSON.stringify(state));
+}
+
+const initialState = getInitialState();
 
 export const shoppingReducer = (state = initialState, action) => {
     let tempState = {}
@@ -23,54 +35,63 @@ export const shoppingReducer = (state = initialState, action) => {
                 list:action.list,
                 error:""
             }
+            saveToStorage(tempState);
             return tempState;
         case GET_SHOPPINGLIST_FAILED:
             tempState = {
                 ...state,
                 error:action.error
             }
+            saveToStorage(tempState);
             return tempState;
         case ADD_TO_LIST_SUCCESS:
             tempState = {
                 ...state,
                 error:""
             }
+            saveToStorage(tempState);
             return tempState;
         case ADD_TO_LIST_FAILED:
             tempState = {
                 ...state,
                 error:action.error
             }
+            saveToStorage(tempState);
             return tempState;
         case REMOVE_FROM_LIST_SUCCESS:
             tempState = {
                 ...state,
                 error:""
             }
+            saveToStorage(tempState);
             return tempState;
         case REMOVE_FROM_LIST_FAILED:
             tempState = {
                 ...state,
                 error:action.error
             }
+            saveToStorage(tempState);
             return tempState;
         case EDIT_ITEM_SUCCESS:
             tempState = {
                 ...state,
                 error:""
             }
+            saveToStorage(tempState);
             return tempState;
         case EDIT_ITEM_FAILED:
             tempState = {
                 ...state,
                 error:action.error
             }
+            saveToStorage(tempState);
             return tempState;
         case REMOVE_STATE:
             tempState = {
                 list:[],
                 error:""
             }
+            saveToStorage(tempState);
             return tempState;
         default:
             return state;

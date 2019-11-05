@@ -9,61 +9,91 @@ import {
     LOGOUT_FAILED
 } from '../actions/loginActions';
 
-const initialState = {
-    isLogged:false,
-    token:[],
-    loading:false,
-    error:""
+const getInitialState = () => {
+    if(sessionStorage.getItem("loginstate")){
+        let state = JSON.parse(sessionStorage.getItem("loginstate"));
+        return state;
+    } else {
+        return {
+            isLogged:false,
+            token:[],
+            loading:false,
+            error:""
+        }
+    }
 }
 
+const saveToStorage = (state) => {
+    sessionStorage.setItem("loginstate", JSON.stringify(state));
+}
+
+const initialState = getInitialState();
+
 const loginReducer = (state = initialState, action) => {
+    let tempState = {}
     switch(action.type){
         case FETCH_LOADING:
-            return {
+            tempState = {
                 ...state,
                 loading:true
             }
+            saveToStorage(tempState);
+            return  tempState;
         case LOADING_DONE:
-                return {
-                    ...state,
-                    loading:false
-                }
+            tempState = {
+                ...state,
+                loading:false
+            }
+            saveToStorage(tempState);
+            return  tempState;
         case REGISTER_SUCCESS:
-                return {
-                    ...state,
-                    error:""
-                }
+            tempState = {
+                ...state,
+                error:""
+            }
+            saveToStorage(tempState);
+            return  tempState;
         case REGISTER_FAILED:
-                return {
-                    ...state,
-                    error:action.error
-                }
+            tempState = {
+                ...state,
+                error:action.error
+            }
+            saveToStorage(tempState);
+            return  tempState;
         case LOGIN_SUCCESS:
-                return {
-                    ...state,
-                    isLogged:true,
-                    token:action.token,
-                    error:""
-                }
+            tempState = {
+                ...state,
+                isLogged:true,
+                token:action.token,
+                error:""
+            }
+            saveToStorage(tempState);
+            return  tempState;
         case LOGIN_FAILED:
-                return {
-                    ...state,
-                    error:action.error
-                }
+            tempState = {
+                ...state,
+                error:action.error
+            }
+            saveToStorage(tempState);
+            return  tempState;
         case LOGOUT_SUCCESS:
-                return {
-                    ...state,
-                    isLogged:false,
-                    token:"",
-                    error:""
-                }
+            tempState = {
+                ...state,
+                isLogged:false,
+                token:"",
+                error:""
+            }
+            saveToStorage(tempState);
+            return  tempState;
         case LOGOUT_FAILED:
-                return {
-                    ...state,
-                    isLogged:false,
-                    token:"",
-                    error:action.error
-                }
+            tempState = {
+                ...state,
+                isLogged:false,
+                token:"",
+                error:action.error
+            }
+            saveToStorage(tempState);
+            return  tempState;
         default:
             return state;
     }
